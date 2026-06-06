@@ -1,0 +1,60 @@
+.suggestion-container {
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 1rem;
+  background-color: #f8f9fa;
+}
+
+.suggestion-item {
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  padding: 1rem;
+  background-color: white;
+}
+
+.suggestion-header {
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+  color: #212529;
+  font-size: 0.95rem;
+}
+
+.suggestion-content {
+  margin-bottom: 1rem;
+}
+
+.original-text,
+.improved-text {
+  margin-bottom: 0.5rem;
+  padding: 0.75rem;
+  border-radius: 3px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.original-text {
+  background-color: #f8f9fa;
+  border-left: 3px solid #6c757d;
+}
+
+.improved-text {
+  background-color: #e7f3ff;
+  border-left: 3px solid #0d6efd;
+}
+
+.label {
+  font-weight: 600;
+  color: #495057;
+  display: inline-block;
+  min-width: 70px;
+}
+
+.suggestion-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.suggestion-actions button {
+  font-size: 0.85rem;
+  padding: 0.375rem 0.75rem;
+}
