@@ -1,5 +1,7 @@
 import express from "express";
 import {
+  getAnswersByQuestionId,
+  createAnswer,
   updateAnswer,
   deleteAnswer,
   upvoteAnswer,
@@ -8,6 +10,12 @@ import {
 import authenticate from "../middleware/authHandler.js";
 
 const router = express.Router();
+
+// Public route to get answers for a question
+router.get("/question/:questionId", getAnswersByQuestionId);
+
+// Protected route to create an answer for a question
+router.post("/question/:questionId", authenticate, createAnswer);
 
 // Protected routes - authentication required
 router.put("/:answerId", authenticate, updateAnswer);
