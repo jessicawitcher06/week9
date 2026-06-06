@@ -40,9 +40,12 @@ const QuestionDetail = () => {
     try {
       const answersText = currentQuestion.answers.map((answer) => answer.answerText);
       const result = await summarizeAnswers(
-        currentQuestion.description,
-        answersText,
-        userInfo.token
+        {
+          questionId: currentQuestion._id,
+          questionText: currentQuestion.description,
+          answersText,
+        },
+        userInfo.token,
       );
       setSummary(result.summary);
     } catch (err) {

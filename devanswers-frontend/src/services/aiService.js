@@ -10,10 +10,10 @@ export const improveQuestion = async (title, description, tags, token) => {
   return res.data.data;
 };
 
-export const summarizeAnswers = async (questionText, answersText, token) => {
+export const summarizeAnswers = async (payload, token) => {
   const res = await axiosInstance.post(
     AI_API.SUMMARIZE_ANSWERS,
-    { questionText, answersText },
+    payload,
     { headers: { Authorization: `Bearer ${token}` } }
   );
   return res.data.data;

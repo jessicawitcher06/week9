@@ -3,7 +3,7 @@ import { Container, Row, Col, Card, Form, Button, Alert, Spinner } from 'react-b
 import { useSelector } from 'react-redux';
 import { FaUser, FaEnvelope, FaSave, FaEdit } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from '../../api/axiosInstance.js';
 import { USER_API } from '../../config/config.js';
 import './Profile.css';
 
@@ -42,7 +42,7 @@ const Profile = () => {
 
   const fetchUserStats = async () => {
     try {
-      const response = await axios.get(USER_API.STATS(userInfo.userId));
+      const response = await axiosInstance.get(USER_API.STATS(userInfo.userId));
       if (response.data.success) {
         setStats(response.data.data);
       }

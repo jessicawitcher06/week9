@@ -12,7 +12,7 @@ export const QUESTION_API = {
   GET_ALL: "/questions",
   GET_BY_ID: (id) => `/questions/${id}`,
   GET_ANSWERS_BY_QUESTION_ID: (questionId) =>
-    `/questions/${questionId}/answers`,
+    `/answers/question/${questionId}`,
 
   CREATE: "/questions",
   UPDATE: (id) => `/questions/${id}`,
@@ -20,7 +20,7 @@ export const QUESTION_API = {
   UPVOTE: (id) => `/questions/${id}/upvote`,
   DOWNVOTE: (id) => `/questions/${id}/downvote`,
   CREATE_ANSWER_FOR_QUESTION: (questionId) =>
-    `/questions/${questionId}/answers`,
+    `/answers/question/${questionId}`,
 };
 
 // Answer API Endpoints

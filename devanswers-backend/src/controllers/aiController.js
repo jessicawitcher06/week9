@@ -2,9 +2,14 @@ import {
   improveQuestionService,
   summarizeAnswersService,
 } from "../services/aiService.js";
+import { createAppError } from "../utils/createAppError.js";
 
 export const improveQuestion = async (req, res) => {
   const { title, description, tags } = req.body;
+
+  if (!title || !description) {
+    throw createAppError("Title and description are required", 400);
+  }
 
   const improvements = await improveQuestionService(title, description, tags);
 
@@ -16,9 +21,20 @@ export const improveQuestion = async (req, res) => {
 };
 
 export const summarizeAnswers = async (req, res) => {
-  const { questionText, answersText } = req.body;
+  const { questionId, questionText, answersText } = req.body;
 
-  const result = await summarizeAnswersService(questionText, answersText);
+  if (!questionId && (!questionText || !answersText)) {
+    throw createAppError(
+      "Provide questionId, or provide questionText and answersText",
+      400,
+    );
+  }
+
+  const result = await summarizeAnswersService({
+    questionId,
+    questionText,
+    answersText,
+  });
 
   res.status(200).json({
     success: true,

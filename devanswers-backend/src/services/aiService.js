@@ -1,5 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { createAppError } from "../utils/createAppError.js";
+import Question from "../models/Question.js";
+import Answer from "../models/Answer.js";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
@@ -51,13 +53,32 @@ Respond ONLY with valid JSON (no markdown, no extra text) in this exact format:
   }
 };
 
-export const summarizeAnswersService = async (questionText, answersText) => {
+export const summarizeAnswersService = async ({
+  questionId,
+  questionText,
+  answersText,
+}) => {
   try {
-    if (!answersText || answersText.length === 0) {
+    let resolvedQuestionText = questionText;
+    let resolvedAnswersText = answersText;
+
+    if (questionId) {
+      const question = await Question.findById(questionId);
+      if (!question) {
+        throw createAppError("Question not found", 404);
+      }
+
+      const answers = await Answer.find({ questionId }).sort({ createdAt: 1 });
+
+      resolvedQuestionText = question.description || question.title;
+      resolvedAnswersText = answers.map((answer) => answer.answerText);
+    }
+
+    if (!resolvedAnswersText || resolvedAnswersText.length === 0) {
       throw createAppError("No answers to summarize", 400);
     }
 
-    const answersContent = answersText
+    const answersContent = resolvedAnswersText
       .map((answer, index) => `Answer ${index + 1}:\n${answer}`)
       .join("\n\n---\n\n");
 
@@ -65,7 +86,7 @@ export const summarizeAnswersService = async (questionText, answersText) => {
 
 Given the following question and its answers, provide a concise 3-5 sentence summary that captures the key points and best solutions.
 
-Question: "${questionText}"
+Question: "${resolvedQuestionText}"
 
 Answers:
 ${answersContent}
