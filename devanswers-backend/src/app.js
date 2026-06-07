@@ -17,6 +17,21 @@ const app = express();
 // Security middlewares
 app.use(helmet());
 
+// Explicit CORS headers for browser clients.
+app.use((req, res, next) => {
+    const origin = req.headers.origin || '*';
+
+    res.header('Access-Control-Allow-Origin', origin);
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
+
+    if (req.method === 'OPTIONS') {
+        return res.sendStatus(204);
+    }
+
+    next();
+});
+
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
     limit: 100, // limit each IP to 100 requests per windowMs

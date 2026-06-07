@@ -16,6 +16,12 @@
   font-size: 0.85rem;
 }
 
+.suggestion-compare {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
+}
+
 .suggestion-preview {
   color: #212529;
   font-size: 0.9rem;
@@ -23,6 +29,22 @@
   background-color: #e7f3ff;
   padding: 0.5rem;
   border-radius: 3px;
+}
+
+.suggestion-preview-original {
+  background-color: #f1f3f5;
+}
+
+.suggestion-preview-improved {
+  background-color: #e7f3ff;
+}
+
+.suggestion-preview-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.35rem;
+  text-transform: uppercase;
 }
 
 .suggestion-actions {

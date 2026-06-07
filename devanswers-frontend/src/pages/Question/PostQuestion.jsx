@@ -55,7 +55,24 @@ const PostQuestion = () => {
     } else if (field === 'tags') {
       setTags(suggestions.improvedTags);
     }
-    handleRejectSuggestion(field);
+
+    setSuggestions((prev) => {
+      if (!prev) return null;
+
+      const updated = { ...prev };
+      if (field === 'title') {
+        updated.improvedTitle = null;
+      } else if (field === 'description') {
+        updated.improvedDescription = null;
+      } else if (field === 'tags') {
+        updated.improvedTags = null;
+      }
+
+      const hasAnySuggestions =
+        updated.improvedTitle || updated.improvedDescription || updated.improvedTags;
+
+      return hasAnySuggestions ? updated : null;
+    });
   };
 
   const handleRejectSuggestion = (field) => {

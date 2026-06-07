@@ -3,11 +3,21 @@ import { createAppError } from "../utils/createAppError.js";
 import Question from "../models/Question.js";
 import Answer from "../models/Answer.js";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+const getModel = () => {
+  const apiKey = process.env.GEMINI_API_KEY;
+
+  if (!apiKey) {
+    throw createAppError("AI service not configured properly", 500);
+  }
+
+  const genAI = new GoogleGenerativeAI(apiKey);
+  return genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+};
 
 export const improveQuestionService = async (title, description, tags) => {
   try {
+    const model = getModel();
+
     const prompt = `You are a helpful assistant that improves technical questions.
 
 Given the following question details, provide improved versions of each field that are:
@@ -59,6 +69,8 @@ export const summarizeAnswersService = async ({
   answersText,
 }) => {
   try {
+    const model = getModel();
+
     let resolvedQuestionText = questionText;
     let resolvedAnswersText = answersText;
 
